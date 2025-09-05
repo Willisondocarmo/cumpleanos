@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Aniversário!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(to bottom, #ff66b2, #ff99cc);
+        }
+        
+        #inicio {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            color: #fff;
+            text-shadow: 3px 3px 0 #ff0099;
+            animation: expandir 2s forwards;
+            text-align: center;
+        }
+        
+        @keyframes expandir {
+            0% { transform: scale(0.1); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .balao {
+            position: absolute;
+            width: 50px;
+            height: 60px;
+            background: #ff66b2;
+            border-radius: 50%;
+            animation: subir 10s linear infinite;
+            opacity: 0.7;
+        }
+        
+        .balao:before {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 15px;
+            background: #ff66b2;
+            clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+        }
+        
+        @keyframes subir {
+            0% { 
+                transform: translateY(100vh) translateX(0);
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(-100px) translateX(30px);
+                opacity: 0;
+            }
+        }
+        
+        #video-container, #cachorro, #chaves, #spotify {
+            display: none;
+        }
+        
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 900;
+        }
+        
+        #cachorro {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            height: 300px;
+            z-index: 950;
+        }
+        
+        #chaves {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 950;
+        }
+        
+        #spotify {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            padding: 15px 25px;
+            background: #1DB954;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            z-index: 960;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        #explosao {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 980;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .particula {
+            position: absolute;
+            background: #ff0066;
+            border-radius: 50%;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="inicio">
+        <h1>Feliz Aniversário!</h1>
+        <div id="baloes-container"></div>
+    </div>
+    
+    <div id="explosao"></div>
+    
+    <div id="video-container">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gkit2SUp4c4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    
+    <img id="cachorro" src="https://media.tenor.com/5cB8k0R0f4oAAAAC/dog-dancing-brazil-dog.gif" alt="Cachorro dançando">
+    
+    <div id="chaves">
+        <img src="https://media.tenor.com/4n43QtqAAAAAAAAC/chaves-isso.gif" alt="Chaves isso">
+    </div>
+    
+    <a id="spotify" href="https://open.spotify.com/playlist/3WRlqAHYBjHzr0qZZchdI0?si=37ee0e2c24bb4a58&pt=78eb72d3f7e1f997ad6fa5f4ceb80b8f" target="_blank">🎵 Abrir Playlist Spotify</a>
+
+    <script>
+        // Criar balões
+        function criarBalões() {
+            const container = document.getElementById('baloes-container');
+            const cores = ['#ff66b2', '#ff99cc', '#ff3366', '#ff0099', '#ff66ff'];
+            
+            for (let i = 0; i < 25; i++) {
+                const balao = document.createElement('div');
+                balao.className = 'balao';
+                balao.style.left = Math.random() * 100 + 'vw';
+                balao.style.animationDelay = Math.random() * 5 + 's';
+                balao.style.background = cores[Math.floor(Math.random() * cores.length)];
+                container.appendChild(balao);
+            }
+        }
+        
+        // Efeito de explosão
+        function explodir() {
+            const explosao = document.getElementById('explosao');
+            explosao.style.display = 'flex';
+            
+            for (let i = 0; i < 100; i++) {
+                const particula = document.createElement('div');
+                particula.className = 'particula';
+                particula.style.width = Math.random() * 30 + 10 + 'px';
+                particula.style.height = particula.style.width;
+                particula.style.left = '50%';
+                particula.style.top = '50%';
+                particula.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+                
+                explosao.appendChild(particula);
+                
+                // Animação das partículas
+                setTimeout(() => {
+                    particula.style.transition = 'all 1s ease-out';
+                    particula.style.opacity = '1';
+                    particula.style.transform = `translate(${Math.random() * 1000 - 500}px, ${Math.random() * 1000 - 500}px) scale(0)`;
+                }, 10);
+            }
+            
+            // Reproduzir som de explosão (usando áudio externo)
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-explosion-hit-1682.mp3');
+            audio.play();
+            
+            // Mostrar vídeo após explosão
+            setTimeout(() => {
+                explosao.style.display = 'none';
+                document.getElementById('video-container').style.display = 'block';
+                
+                // Mostrar GIF do cachorro após 5 segundos
+                setTimeout(() => {
+                    document.getElementById('cachorro').style.display = 'block';
+                    
+                    // Mostrar GIF do Chaves e botão do Spotify após mais 2 segundos
+                    setTimeout(() => {
+                        document.getElementById('chaves').style.display = 'block';
+                        document.getElementById('spotify').style.display = 'block';
+                    }, 2000);
+                }, 5000);
+            }, 2000);
+        }
+        
+        // Iniciar a experiência
+        document.addEventListener('DOMContentLoaded', () => {
+            criarBalões();
+            
+            // Iniciar sequência após 5 segundos
+            setTimeout(explodir, 5000);
+        });
+    </script>
+</body>
+</html>
